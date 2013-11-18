@@ -13,9 +13,9 @@ options = {
 o = OptionParser.new do |opts|
   opts.banner = "
     Usage: #{SCRIPT_NAME} <arguments>
-    
+
     Description of what this program does...\n\n"
-    
+
   opts.on("-e", "--eg ARG", "description [default: #{options[:eg]}]") do |arg|
     options[:example] = arg
   end
@@ -31,7 +31,7 @@ if ARGV.length != 0
   exit 1
 end
 # Setup logging
-Bio::Log::CLI.logger(options[:logger]); Bio::Log::CLI.trace(options[:log_level]); log = Bio::Log::LoggerPlus.new(LOG_NAME); Bio::Log::CLI.configure(LOG_NAME)
+Bio::Log::CLI.logger(options[:logger]); Bio::Log::CLI.trace(options[:log_level]); log = Bio::Log::LoggerPlus.new(LOG_NAME); Bio::Log::CLI.configure(LOG_NAME); log.outputters[0].formatter = Log4r::PatternFormatter.new(:pattern => "%5l %c %d: %m", :date_pattern => '%d/%m %T')
 
 
 #TODO what are you looking at me for? This is your script. Do something.
