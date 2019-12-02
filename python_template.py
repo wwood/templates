@@ -1,8 +1,5 @@
-#!/usr/bin/env python
-###############################################################################
-#
-# __script_name__.py - description!
-#
+#!/usr/bin/env python3
+
 ###############################################################################
 #                                                                             #
 #    This program is free software: you can redistribute it and/or modify     #
@@ -20,115 +17,47 @@
 #                                                                             #
 ###############################################################################
 
-__author__ = "Michael Imelfort"
-__copyright__ = "Copyright 2012"
-__credits__ = ["Michael Imelfort"]
+__author__ = "Ben Woodcroft"
+__copyright__ = "Copyright 2019"
+__credits__ = ["Ben Woodcroft"]
 __license__ = "GPL3"
-__version__ = "0.0.1"
-__maintainer__ = "Michael Imelfort"
-__email__ = "mike@mikeimelfort.com"
+__version__ = "0.0.0-dev"
+__maintainer__ = "Ben Woodcroft"
+__email__ = "benjwoodcroft near gmail.com"
 __status__ = "Development"
 
 ###############################################################################
 
 import argparse
 import sys
+import os
+import logging
 
-#import os
-#import errno
-
-#import numpy as np
-#np.seterr(all='raise')     
-
-#import matplotlib as mpl
-#import matplotlib.pyplot as plt
-#from mpl_toolkits.mplot3d import axes3d, Axes3D
-#from pylab import plot,subplot,axis,stem,show,figure
-
-
-###############################################################################
-###############################################################################
-###############################################################################
-###############################################################################
-
-  # classes here
-
-###############################################################################
-###############################################################################
-###############################################################################
-###############################################################################
-
-def doWork( args ):
-    """ Main wrapper"""
-
-    """
-    # parse a file    
-    try:
-        with open(filename, "r") as fh:
-            for line in fh:
-                print line
-    except: 
-        print "Error opening file:", filename, exc_info()[0]
-        raise    
-    """
-
-    """
-    fig = plt.figure()
-
-    #-----
-    # make a 3d plot
-    ax = fig.add_subplot(111, projection='3d')
-    ax.scatter(points[:,0], 
-               points[:,1],
-               points[:,2],
-               #edgecolors='none',
-               #c=colors,
-               #s=2,
-               #marker='.'
-               )
-    
-    #-----
-    # make a 2d plot
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    ax.plot(points[:,0],
-            points[:,1],
-            '*g')
-
-    #-----
-    # show figure
-    plt.show()  
-    # or save figure
-    plt.savefig(filename,dpi=300,format='png')
-    
-    #-----
-    # clean up!
-    plt.close(fig)
-    del fig
-    """
-
-    return 0
-
-###############################################################################
-###############################################################################
-###############################################################################
-###############################################################################
+sys.path = [os.path.join(os.path.dirname(os.path.realpath(__file__)),'..')] + sys.path
 
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
+    parser.add_argument('--debug', help='output debug information', action="store_true")
+    parser.add_argument('--version', help='output version information and quit',  action='version', version=__version__)
+    parser.add_argument('--quiet', help='only output errors', action="store_true")
+
     #parser.add_argument('positional_arg', help="Required")
     #parser.add_argument('positional_arg2', type=int, help="Integer argument")
     #parser.add_argument('positional_arg3', nargs='+', help="Multiple values")
     #parser.add_argument('-X', '--optional_X', action="store_true", default=False, help="flag")
     
     # parse the arguments
-    args = parser.parse_args()        
+    args = parser.parse_args()
 
-    # do what we came here to do
-    return doWork(args)
+    # Setup logging
+    if args.debug:
+        loglevel = logging.DEBUG
+    elif args.quiet:
+        loglevel = logging.ERROR
+    else:
+        loglevel = logging.INFO
+    logging.basicConfig(level=loglevel, format='%(asctime)s %(levelname)s: %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
+    logging.info("{} version {}".format(os.path.basename(__file__), __version__))
 
-###############################################################################
-###############################################################################
-###############################################################################
-###############################################################################
+    # 
