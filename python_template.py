@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
+
 ###############################################################################
-#
-#    __Script__Name__
-#    
-#    <one line to give the program's name and a brief idea of what it does.>
 #
 #    Copyright (C) 2020 Ben Woodcroft
 #
@@ -21,6 +18,14 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
+
+__author__ = "Ben Woodcroft"
+__copyright__ = "Copyright 2020"
+__credits__ = ["Ben Woodcroft"]
+__license__ = "GPL3"
+__maintainer__ = "Ben Woodcroft"
+__email__ = "benjwoodcroft near gmail.com"
+__status__ = "Development"
 
 import argparse
 import logging
@@ -46,6 +51,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
+    # Setup logging
     if args.debug:
         loglevel = logging.DEBUG
     elif args.quiet:
@@ -58,3 +64,4 @@ if __name__ == '__main__':
         raise Exception("Implement me")
     else:
         raise Exception("Programming error")
+    logging.info("{} version {}".format(os.path.basename(__file__), __version__))
