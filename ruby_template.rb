@@ -4,6 +4,7 @@ require 'optparse'
 require 'bio-logger'
 
 SCRIPT_NAME = File.basename(__FILE__); LOG_NAME = SCRIPT_NAME.gsub('.rb','')
+$:.unshift File.join(File.dirname(__FILE__),'..','lib')
 
 # Parse command line options into the options hash
 options = {

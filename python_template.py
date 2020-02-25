@@ -1,11 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 ###############################################################################
 #
 #    __Script__Name__
 #    
 #    <one line to give the program's name and a brief idea of what it does.>
 #
-#    Copyright (C) 2012 Michael Imelfort
+#    Copyright (C) 2020 Ben Woodcroft
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -22,43 +22,39 @@
 #
 ###############################################################################
 
-from optparse import OptionParser
+import argparse
+import logging
 import sys
-from pprint import pprint
+import os
 
-###############################################################################
-# CODE HERE
-###############################################################################
+sys.path = [os.path.join(os.path.dirname(os.path.realpath(__file__)),'..')] + sys.path
 
-def doWork( options ):
-    return 0
-
-###############################################################################
-# TEMPLATE SUBS
-###############################################################################
-#
-# Entry point, parse command line args and call out to doWork
-#
 if __name__ == '__main__':
-    # intialise the options parser
-    parser = OptionParser("\n\n %prog [options]")
-    
-    # add options here:
-    #parser.add_option("-f", "--frog", action="store_true", dest="frog", default=False, help="Is this a frog? [default: false]")
-    #parser.add_option("-c", "--cat", dest="cat", default=16, help="The cat's age? [default: 16")
-    
-    # get and check options
-    (opts, args) = parser.parse_args()
-    
-    #
-    # compulsory opts
-    #
-    #if (opts.frog is None ):
-    #    print ("**ERROR: %prog : No frog!")
-    #    parser.print_help()
-    #    sys.exit(1)
-    
-    # 
-    # do what we came here to do
-    #
-    doWork(opts)
+    parent_parser = argparse.ArgumentParser(add_help=False)
+    parent_parser.add_argument('--debug', help='output debug information', action="store_true")
+    #parent_parser.add_argument('--version', help='output version information and quit',  action='version', version=repeatm.__version__)
+    parent_parser.add_argument('--quiet', help='only output errors', action="store_true")
+
+    parser = argparse.ArgumentParser(parents=[parent_parser])
+    subparsers = parser.add_subparsers(title="Sub-commands", dest='subparser_name')
+
+    cluster_description = 'Cluster bins and assembled contigs'
+    cluster_parser = subparsers.add_parser('cluster')
+    cluster_parser.add_argument(
+        '--bin_directories', nargs='+', metavar='DIR [DIR ..]',
+        help="Directories containing FASTA files of bins", required=True)
+
+    args = parser.parse_args()
+
+    if args.debug:
+        loglevel = logging.DEBUG
+    elif args.quiet:
+        loglevel = logging.ERROR
+    else:
+        loglevel = logging.INFO
+    logging.basicConfig(level=loglevel, format='%(asctime)s %(levelname)s: %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
+
+    if args.subparser_name == 'cluster':
+        raise Exception("Implement me")
+    else:
+        raise Exception("Programming error")
